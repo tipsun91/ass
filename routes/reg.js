@@ -1,36 +1,32 @@
 const router = require('express').Router();
-
+const access = require('../middlewares/access');
 const Reg  = require('../views/Reg');
 
-router.get('/', async (req, res) => {
-  if (res.locals.user) {
-    res.redirect('/profile');
-    return;
-  }
-
+router.get('/', access('guest'), (req, res) => {
   res.renderComponent(Reg);
 });
 
 const { User } = require('../db/models');
 const bcrypt = require('bcrypt');
-router.post('/', async (req, res) => {
+router.post('/', access('guest'), async (req, res) => {
   try {
-    if (res.locals.user) {
-      res.redirect('/profile');
-      return;
-    }
+    const { email, name, password }  = req.body;
 
-    const { name, role, password }  = req.body;
-
-    if(await User.isExists(name)){
+    if (!password[0] || password[0] !== password[1]) {
       res.redirect('/reg');
       return;
     }
 
-    const hash = await bcrypt.hash(password, 2);
-    const user = await User.create({ name, role, password:hash });
+    if(await User.isExists(email)){
+      res.redirect('/reg');
+      return;
+    }
+
+    const hash = await bcrypt.hash(password[0], 2);
+    const user = await User.create({ email, name, password:hash });
     await user.save();
-    req.session.user = user;
+    req.session.userId = user.id;
+    res.locals.user = user;
     res.redirect('/profile');
   } catch (error) {
     res.status(500).json(error);

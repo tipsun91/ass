@@ -1,26 +1,16 @@
 const router = require('express').Router();
-
+const access = require('../middlewares/access');
 const Auth  = require('../views/Auth');
-router.get('/', async (req, res) => {
-  if (res.locals.user) {
-    res.redirect('/profile');
-    return;
-  }
-
+router.get('/', access('guest'), (req, res) => {
   res.renderComponent(Auth);
 });
 
 const { User } = require('../db/models');
 const bcrypt = require('bcrypt');
-router.post('/', async (req, res) => {
+router.post('/', access('guest'), async (req, res) => {
   try {
-    if (res.locals.user) {
-      res.redirect('/profile');
-      return;
-    }
-
-    const { name, password } = req.body;
-    const user = await User.isExists(name);
+    const { email, password } = req.body;
+    const user = await User.isExists(email);
 
     if(!user) {
       res.redirect('/reg');
@@ -32,12 +22,20 @@ router.post('/', async (req, res) => {
       return;
     }
 
-    req.session.user = user;
+    req.session.userId = user.id;
+    res.locals.user = user;
+
     res.redirect('/profile');
     return;
   } catch(error){
     res.status(500).json(error);
   }
+});
+
+router.get('/exit', access('user'), async (req, res) => {
+  req.session.destroy();
+  res.clearCookie(process.env.SESSION_COOKIE);
+  res.redirect('/');
 });
 
 module.exports = router;

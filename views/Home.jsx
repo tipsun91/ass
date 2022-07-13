@@ -1,11 +1,12 @@
 /* eslint-disable jsx-a11y/aria-role */
 const React = require('react');
+const CardList = require('./CardList');
 
 const Layout = require('./Layout');
-module.exports = function Home({ text, user }) {
+module.exports = function Home({ user, posts }) {
   return (
-    <Layout>
-      <div className="container">Wellcome, {user.name}</div>
+    <Layout user={user}>
+      <CardList posts={posts} />
     </Layout>
   );
 };

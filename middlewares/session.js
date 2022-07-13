@@ -1,6 +1,7 @@
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
+const { User } = require('../db/models');
 // Cookie & Session
 module.exports = (app) => {
   app.use(cookieParser());
@@ -18,7 +19,7 @@ module.exports = (app) => {
   }));
   // промежуточная функция для очистки куки при истёкшей сессии на сервере
   app.use((req, res, next) => {
-    if (req.cookies[process.env.SESSION_COOKIE] && !req.session.user) {
+    if (req.cookies[process.env.SESSION_COOKIE] && !req.session.userId) {
       res.clearCookie(process.env.SESSION_COOKIE);
       res.redirect('/');
     } else {
@@ -26,9 +27,9 @@ module.exports = (app) => {
     }
   });
   // промежуточная функция наполнения локальных переменных
-  app.use((req, res, next) => {
-    if (req.session.user) {
-      res.locals.user = req.session.user;
+  app.use(async (req, res, next) => {
+    if (req.session.userId) {
+      res.locals.user = await User.findByPk(req.session.userId);
     }
 
     next();

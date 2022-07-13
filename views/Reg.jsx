@@ -5,38 +5,33 @@ const Layout = require('./Layout');
 module.exports = function Reg({ errors }) {
   return (
     <Layout title="Регистрация">
-      {/* <h1>Регистрация</h1> */}
+      <main className="form-signin w-100 m-auto">
+        <form action="/reg" method="POST">
+          <h1 className="h3 mb-3 fw-normal">Регистрация</h1>
 
-      <main className="form-wrapper md-3" role="main">
-        <div className="reg">
-          {/* <h1 className='font-monospace'>Регистрация</h1> */}
-          <form className='reg_form' method="post" action="/reg">
-            <h1 className='h1 reg_content'>Регистрация</h1>
-            <br />
-            <label className='reg_content reg_text' htmlFor="name_input">Имя:</label>
-            <br />
-            <input className='reg_content reg_input' id="name_input" name="name" type="text" value="" />
+          <div className="form-floating">
+            <input name="email" type="email" className="form-control" id="floatingInput" placeholder="name@example.com" />
+            <label htmlFor="floatingInput">Email</label>
+          </div>
+          <br />
+          <div className="form-floating">
+            <input name="name" type="text" className="form-control" id="floatingInput" placeholder="Имя" />
+            <label htmlFor="floatingInput">Имя</label>
+          </div>
+          <br />
+          <div className="form-floating">
+            <input name="password[0]" type="password" className="form-control" id="floatingPassword" placeholder="Password" />
+            <label htmlFor="floatingPassword">Password</label>
+          </div>
+          <br />
+          <div className="form-floating">
+            <input name="password[1]" type="password" className="form-control" id="floatingPassword" placeholder="Password" />
+            <label htmlFor="floatingPassword">Password</label>
+          </div>
 
-            <div className="form-check">
-              <label className="reg_content reg_text" for="flexRadioDefault1">Бабушка: </label>
-              <input className="reg_content reg_input_radio" type="radio" name="role" value="gm" id="flexRadioDefault1" checked />
-            </div>
-
-            <div className="form-check">
-              <label className="reg_content reg_text" for="flexRadioDefault2">Внук: </label>
-              <input className="reg_content reg_input_radio" type="radio" name="role" value="gs" id="flexRadioDefault2" />
-            </div>
-
-            <label className="reg_content reg_text" htmlFor="password_input">Пароль:</label>
-            <br />
-            <input className="reg_content reg_input" id="password_input" name="password" type="password" value="" />
-            <br />
-            <button className="reg_content btn" type="submit" value="Зарегистрироваться">Зарегистрироваться</button>
-            {/* <input className="reg_content btn btn-primary" type="submit" value="Зарегистрироваться" /> */}
-          </form>
-        </div>
+          <button className="w-100 btn btn-lg btn-primary" type="submit">Зарегистрироваться</button>
+        </form>
       </main>
-
     </Layout>
   );
 };

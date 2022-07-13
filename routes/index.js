@@ -2,8 +2,10 @@ const router = require('express').Router();
 
 const Home = require('../views/Home');
 
+const { Post } = require('../db/models');
 router.get('/', async (req, res) => {
-  res.renderComponent(Home, { title: 'StartPage' });
+  const posts = await Post.findAll();
+  res.renderComponent(Home, { posts, title: 'Wellcome' });
 });
 
 module.exports = router;
