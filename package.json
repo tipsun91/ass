@@ -3,15 +3,44 @@
   "version": "0.1.0",
   "description": "Щебетатель",
   "private": true,
+  "main": "app.js",
   "scripts": {
-    
+    "start": "node app.js",
+    "dev": "nodemon app.js -ext js,jsx,css",
+    "db-seed": "npx sequelize-cli db:seed:all",
+    "db-seed-undo": "npx sequelize db:seed:undo:all",
+    "db-create": "npx sequelize db:create",
+    "db-drop": "npx sequelize db:drop",
+    "db-migrate": "npx sequelize db:migrate:undo:all && npx sequelize db:migrate",
+    "db-up": "npx sequelize db:create && npx sequelize db:migrate:all && npx sequelize db:seed:all"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "public/*",
+      "sessions/*",
+      "uploads/*"
+    ]
   },
   "dependencies": {
-
+    "@babel/core": "^7.17.12",
+    "@babel/preset-env": "^7.17.12",
+    "@babel/preset-react": "^7.17.12",
+    "@babel/register": "^7.17.7",
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.1",
+    "express": "^4.16.4",
+    "express-session": "^1.17.3",
+    "morgan": "^1.9.1",
+    "nodemon": "^2.0.19",
+    "pg": "^8.7.3",
+    "pg-hstore": "^2.3.4",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "sequelize": "^6.21.2",
+    "session-file-store": "^1.5.0"
   },
   "devDependencies": {
-    "eslint": "^8.10.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.4"
+    "sequelize-cli": "^6.4.1"
   }
 }
