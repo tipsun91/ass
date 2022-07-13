@@ -7,12 +7,12 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js -ext js,jsx,css",
-    "db-seed": "npx sequelize-cli db:seed:all",
-    "db-seed-undo": "npx sequelize db:seed:undo:all",
+    "db-up": "npx sequelize db:create && npx sequelize db:migrate:all && npx sequelize db:seed:all",
     "db-create": "npx sequelize db:create",
     "db-drop": "npx sequelize db:drop",
     "db-migrate": "npx sequelize db:migrate:undo:all && npx sequelize db:migrate",
-    "db-up": "npx sequelize db:create && npx sequelize db:migrate:all && npx sequelize db:seed:all"
+    "db-seed": "npx sequelize-cli db:seed:all",
+    "db-seed-undo": "npx sequelize db:seed:undo:all"
   },
   "nodemonConfig": {
     "ignore": [
